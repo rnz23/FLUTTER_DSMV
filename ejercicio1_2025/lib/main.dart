@@ -1,5 +1,6 @@
 
 import 'package:ejercicio1_2025/pantalla_inicio.dart';
+import 'package:ejercicio1_2025/pantalla_perfil.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: .fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const PantallaInicio(),
+      home: const PantallaPerfil(),
     );
   }
 }
