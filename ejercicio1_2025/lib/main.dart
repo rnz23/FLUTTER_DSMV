@@ -1,4 +1,5 @@
 
+import 'package:ejercicio1_2025/pantalla_hobbies.dart';
 import 'package:ejercicio1_2025/pantalla_inicio.dart';
 import 'package:ejercicio1_2025/pantalla_perfil.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: .fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const PantallaPerfil(),
+      home: const PantallaHobbies(),
     );
   }
 }
