@@ -17,6 +17,7 @@ class _UserFormScreenState extends State<UserFormScreen> {
   String _genero = 'Masculino';
   bool _activo = true;
   late int _edad;
+  late String _email; // NUEVA VARIABLE
 
   @override
   void initState() {
@@ -26,10 +27,18 @@ class _UserFormScreenState extends State<UserFormScreen> {
       _genero = widget.usuario!.genero;
       _activo = widget.usuario!.activo;
       _edad = widget.usuario!.edad;
+      _email = widget.usuario!.email; // INICIALIZAR
     } else {
       _nombre = '';
       _edad = 0;
+      _email = ''; // VALOR POR DEFECTO
     }
+  }
+
+  // FUNCIÓN PARA VALIDAR EMAIL
+  bool _isValidEmail(String email) {
+    final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+    return emailRegex.hasMatch(email);
   }
 
   @override
@@ -46,10 +55,11 @@ class _UserFormScreenState extends State<UserFormScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // CAMPO NOMBRE
               TextFormField(
                 initialValue: _nombre,
                 decoration: const InputDecoration(
-                  labelText: 'Nombre',
+                  labelText: 'Nombre completo',
                   border: OutlineInputBorder(),
                   prefixIcon: Icon(Icons.person),
                 ),
@@ -68,6 +78,30 @@ class _UserFormScreenState extends State<UserFormScreen> {
                 onSaved: (value) => _nombre = value!,
               ),
               const SizedBox(height: 20),
+
+              // CAMPO EMAIL
+              TextFormField(
+                initialValue: _email,
+                keyboardType: TextInputType.emailAddress,
+                decoration: const InputDecoration(
+                  labelText: 'Correo electrónico',
+                  border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.email),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Por favor ingresa un correo electrónico';
+                  }
+                  if (!_isValidEmail(value)) {
+                    return 'Ingresa un correo electrónico válido';
+                  }
+                  return null;
+                },
+                onSaved: (value) => _email = value!,
+              ),
+              const SizedBox(height: 20),
+
+              // CAMPO EDAD
               TextFormField(
                 initialValue: _edad == 0 ? '' : _edad.toString(),
                 keyboardType: TextInputType.number,
@@ -95,6 +129,8 @@ class _UserFormScreenState extends State<UserFormScreen> {
                 onSaved: (value) => _edad = int.parse(value!),
               ),
               const SizedBox(height: 20),
+
+              // GÉNERO
               const Text(
                 'Género',
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
@@ -121,6 +157,8 @@ class _UserFormScreenState extends State<UserFormScreen> {
                 ],
               ),
               const SizedBox(height: 10),
+
+              // ACTIVO/INACTIVO
               Card(
                 child: SwitchListTile(
                   title: const Text('Usuario Activo'),
@@ -130,6 +168,8 @@ class _UserFormScreenState extends State<UserFormScreen> {
                 ),
               ),
               const SizedBox(height: 30),
+
+              // BOTÓN GUARDAR
               Center(
                 child: ElevatedButton(
                   onPressed: () {
@@ -140,6 +180,7 @@ class _UserFormScreenState extends State<UserFormScreen> {
                         genero: _genero,
                         activo: _activo,
                         edad: _edad,
+                        email: _email, // NUEVO CAMPO
                       );
                       Navigator.pop(context, user);
                     }
